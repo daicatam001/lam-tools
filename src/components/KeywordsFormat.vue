@@ -19,7 +19,11 @@
                 <div class="italic leading-5">
                     <p> {{ result }}</p>
                 </div>
-                <a v-if="result" class="text-blue-500 inline-block cursor-pointer" @click="onCopy">{{ copyText }}</a>
+                <div v-if="result" class="flex items-center justify-between">
+                    <a class="text-blue-500 inline-block cursor-pointer" @click="onCopy">{{ copyText }}</a>
+                    <div>Total: <b>{{ resultWordCount }}</b></div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -34,6 +38,9 @@ const copyText = ref('Copy')
 const keywords = computed(() => keywordStr.value.trim().toLowerCase()
     .split(',').filter(word => !!word).map(word => word.trim())
 )
+
+const resultWordCount = computed(() => result.value.split(',').length)
+
 const dupMarked = computed(() => {
     const duplicates = Utils.findDuplicate(keywords.value)
     return duplicates.reduce((entry, item) => ({
